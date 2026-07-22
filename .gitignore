@@ -1,0 +1,30 @@
+# Virtual Environment
+.venv/
+venv/
+env/
+ENV/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Testing / Cache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local uploaded/processed files
+local_storage/
+local_fallback/
+
+# OS/IDE settings
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
