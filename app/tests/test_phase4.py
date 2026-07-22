@@ -15,14 +15,13 @@ TEST_DATABASE_URL = "sqlite:///./test_toolkit_p4.db"
 engine = create_engine(TEST_DATABASE_URL, connect_args={"check_same_thread": False})
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-import app.routers.websocket
-app.tasks.worker.SessionLocal = TestingSessionLocal
-app.routers.websocket.SessionLocal = TestingSessionLocal
-
 @pytest.fixture(autouse=True)
 def mock_services(monkeypatch):
     import sys
     import types
+
+    monkeypatch.setattr(app.tasks.worker, "SessionLocal", TestingSessionLocal)
+    monkeypatch.setattr(app.routers.websocket, "SessionLocal", TestingSessionLocal)
 
     # Inject a fake rembg module BEFORE worker.py imports it
     # This prevents the heavy AI model download on first import

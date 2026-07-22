@@ -1,21 +1,25 @@
-FROM python:3.11-slim
+FROM python:3.12-slim
 
-# Prevent writing .pyc files and buffer streams
+# Prevent Python from writing pyc files and buffering stdout/stderr
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-# Install basic system runtime dependencies
+# Install system dependencies (like curl for health checks)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
+# Install python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy source code
 COPY . .
 
+# Expose FastAPI application port
 EXPOSE 8000
 
+# Default command runs Uvicorn server
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
