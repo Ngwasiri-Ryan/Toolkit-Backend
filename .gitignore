@@ -28,3 +28,6 @@ local_fallback/
 .idea/
 Thumbs.db
 .DS_Store
+
+# Local secrets
+.env
